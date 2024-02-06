@@ -13,6 +13,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "title",
             "body",
             "price",
+            "amount",
             "amountOfReviews",
             "average",
             "productReview",

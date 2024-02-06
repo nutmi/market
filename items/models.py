@@ -6,6 +6,7 @@ class Product(models.Model):
     title = models.CharField(max_length=100)
     body = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=100, decimal_places=2)
+    amount = models.IntegerField(default=1)
 
     def __str__(self) -> str:
         return self.title
@@ -22,4 +23,6 @@ class Product(models.Model):
         total = 0
         for i in self.productReview.all():
             total += i.score
-        return total / self.amountOfReviews
+        if total != 0:
+            return total / self.amountOfReviews
+        return 0

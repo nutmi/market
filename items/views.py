@@ -1,12 +1,6 @@
 from django.shortcuts import render
 from .models import Product
-from rest_framework import generics, mixins, status, viewsets
-from rest_framework.authentication import (
-    SessionAuthentication,
-    BasicAuthentication,
-    TokenAuthentication,
-)
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import mixins, viewsets
 from .serializers import ProductSerializer
 
 
@@ -14,16 +8,15 @@ from .serializers import ProductSerializer
 class ProductViewSet(
     viewsets.GenericViewSet,
     mixins.ListModelMixin,
-    mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
 ):
     serializer_class = ProductSerializer
-    queryset = Product.objects.all()
     lookup_field = "id"
-    authentication_classes = [
-        SessionAuthentication,
-        BasicAuthentication,
-        TokenAuthentication,
-    ]
-    # authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    ordering_fields = ["price", "amount"]
+    ordering_param = "sort"
+
+    def get_queryset(self):
+        ordering = self.request.query_params.get(self.ordering_param)
+        if ordering in self.ordering_fields:
+            return Product.objects.all().order_by(f"-{ordering}")
+        return Product.objects.all()
