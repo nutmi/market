@@ -11,7 +11,7 @@ from .serializers import ProductSerializer
 
 
 # Create your views here.
-class GenericAPIView(
+class ProductViewSet(
     viewsets.GenericViewSet,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
@@ -20,6 +20,10 @@ class GenericAPIView(
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     lookup_field = "id"
-    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    authentication_classes = [
+        SessionAuthentication,
+        BasicAuthentication,
+        TokenAuthentication,
+    ]
     # authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]

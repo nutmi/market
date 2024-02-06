@@ -9,3 +9,17 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+    @property
+    def amountOfReviews(self):
+        total = 0
+        for _ in self.productReview.all():
+            total += 1
+        return total
+
+    @property
+    def average(self):
+        total = 0
+        for i in self.productReview.all():
+            total += i.score
+        return total / self.amountOfReviews
