@@ -13,10 +13,8 @@ class Cart(models.Model):
     @property
     def full_price(self):
         total = 0
-        all_items = self.items.all()
-        for item in all_items:
-            a = item.full_price
-            total += a
+        for item in self.items.all():
+            total += item.full_price
         return total
 
 

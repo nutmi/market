@@ -1,48 +1,39 @@
-from django.shortcuts import render
-from rest_framework import viewsets
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from .models import Cart, CartProduct, Order, OrderItem
+from .models import Cart, Order, OrderItem, CartProduct
 from django.shortcuts import get_object_or_404
-from items.models import Product
 from rest_framework import mixins, viewsets
-from .serializers import CartProductSerializer, OrderItemSeraializer, OrderSeraializer
-from transactions.models import Vallet
-from rest_framework.authentication import (
-    SessionAuthentication,
-    BasicAuthentication,
-    TokenAuthentication,
+from .serializers import (
+    CartSerializer,
+    CartProductSerializer,
+    OrderItemSeraializer,
+    OrderSeraializer,
 )
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-import random
-from django.contrib.auth.models import User
 
 # Create your views here.
 
 
 class CartViewSet(
-    mixins.ListModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet
+    mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
 ):
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    serializer_class = CartSerializer
+    lookup_field = "id"
+
+    def get_queryset(self):
+        return Cart.objects.filter(user=self.request.user)
+
+
+class CartProductViewSet(
+    mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
+):
+    authentication_classes = [TokenAuthentication]
     serializer_class = CartProductSerializer
     lookup_field = "id"
 
     def get_queryset(self):
-        cart_products = CartProduct.objects.filter(cart__user=self.request.user)
-        return cart_products
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        cart_product_prices = [item.full_price for item in queryset]
-        total_price = sum(cart_product_prices)
-        serializer = self.get_serializer(queryset, many=True)
-        data = {
-            "cart_products": serializer.data,
-            "total_price": total_price,
-        }
-        return Response(data)
+        return CartProduct.objects.filter(cart__user=self.request.user)
 
 
 class OrderViewSet(
