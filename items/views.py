@@ -11,7 +11,7 @@ class ProductViewSet(
     mixins.RetrieveModelMixin,
 ):
     serializer_class = ProductSerializer
-    lookup_field = "id"
+    lookup_field = "title"
     ordering_fields = ["price", "amount"]
     ordering_param = "sort"
 

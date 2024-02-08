@@ -4,7 +4,7 @@ from reviews.serializers import ReviewSerializer
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    productReview = ReviewSerializer(many=True, read_only=True)
+    #productReview = ReviewSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
@@ -16,5 +16,5 @@ class ProductSerializer(serializers.ModelSerializer):
             "amount",
             "amountOfReviews",
             "average",
-            "productReview",
+            #"productReview",
         ]

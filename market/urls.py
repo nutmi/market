@@ -21,6 +21,7 @@ urlpatterns = [
     path("", include("transactions.urls")),
     path("", include("items.urls")),
     path("", include("core.urls")),
+    path("", include("reviews.urls")),
     re_path(r"^auth/", include("djoser.urls")),
     re_path(r"^auth/", include("djoser.urls.authtoken")),
 ]
