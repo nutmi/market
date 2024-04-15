@@ -12,10 +12,7 @@ class Cart(models.Model):
 
     @property
     def full_price(self):
-        total = 0
-        for item in self.items.all():
-            total += item.full_price
-        return total
+        return sum(item.full_price for item in self.items.all())
 
 
 class CartProduct(models.Model):
@@ -39,11 +36,7 @@ class Order(models.Model):
 
     @property
     def full_price(self):
-        total = 0
-        for item in self.items.all():
-            total += item.full_price
-        return total
-
+        return sum(item.full_price for item in self.items.all())
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)

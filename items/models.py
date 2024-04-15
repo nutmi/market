@@ -13,16 +13,11 @@ class Product(models.Model):
 
     @property
     def amountOfReviews(self):
-        total = 0
-        for _ in self.productReview.all():
-            total += 1
-        return total
+        return self.product.Review.count()
 
     @property
     def average(self):
-        total = 0
-        for i in self.productReview.all():
-            total += i.score
+        total = sum(i.score for i in self.productReview.all())
         if total != 0:
             return total / self.amountOfReviews
         return 0
