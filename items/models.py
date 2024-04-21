@@ -13,7 +13,7 @@ class Product(models.Model):
 
     @property
     def amountOfReviews(self):
-        return self.product.Review.count()
+        return self.productReview.count()
 
     @property
     def average(self):

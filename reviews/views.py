@@ -2,7 +2,6 @@ from django.shortcuts import render
 from .serializers import ReviewSerializer
 from .models import Review
 from rest_framework import mixins, viewsets
-
 # Create your views here.
 
 class ReviewViewSet(

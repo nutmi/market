@@ -18,10 +18,10 @@ from django.urls import path, include, re_path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("transactions.urls")),
     path("", include("items.urls")),
-    path("", include("core.urls")),
     path("", include("reviews.urls")),
+    path("", include("Cart.urls")),
+    path("", include("Order.urls")),
     re_path(r"^auth/", include("djoser.urls")),
     re_path(r"^auth/", include("djoser.urls.authtoken")),
 ]
